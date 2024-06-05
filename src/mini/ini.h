@@ -196,7 +196,20 @@ namespace mINI
 				return T();
 			}
 			return T(data[it->second].second);
-		}
+		} 
+		T get(std::string key, T default_value = T()) const
+                {
+                  INIStringUtil::trim(key);
+#ifndef MINI_CASE_SENSITIVE
+                  INIStringUtil::toLower(key);
+#endif
+                  auto it = dataIndexMap.find(key);
+                  if (it == dataIndexMap.end())
+                  {
+                    return default_value;
+                  }
+                  return T(data[it->second].second);
+                }
 		bool has(std::string key) const
 		{
 			INIStringUtil::trim(key);
